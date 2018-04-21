@@ -1,7 +1,7 @@
 {
-    "name": "newestapps/package-kit",
+    "name": "newestapps/assets",
     "version": "1.0.0",
-    "description": "Newestapps Package development kit",
+    "description": "Front-end assets manager for easy import different JS or CSS files in blade views.",
     "homepage": "https://newestapps.com.br",
     "license": "proprietary",
     "minimum-stability": "dev",
@@ -25,25 +25,20 @@
     },
     "autoload": {
         "psr-4": {
-            "Newestapps\\Package\\": "./src/"
-        },
-        "files": [],
-        "classmap": [
-            "database/migrations",
-            "database/seeds"
-        ]
+            "Newestapps\\Assets\\": "./src/"
+        }
     },
     "require": {
         "php": ">=7.1.0",
-        "laravel/framework": ">=5.5.32",
-        "newestapps/core": "dev-master"
+        "laravel/framework": ">=5.5.32"
     }
     "extra": {
         "laravel": {
             "providers": [
-                "Newestapps\\Package\\Providers\\PackageServiceProvider"
+                "Newestapps\\Assets\\Providers\\AssetsServiceProvider"
             ],
             "aliases": {
+                "Assets": "Newestapps\\Assets\\Facades\\Assets"
             }
         }
     }
