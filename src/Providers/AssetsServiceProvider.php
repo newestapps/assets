@@ -19,6 +19,10 @@ class AssetsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $pageAssetsInclude = resource_path('page_assets.php');
+        if (file_exists($pageAssetsInclude)) {
+            include_once($pageAssetsInclude);
+        }
     }
 
     /**

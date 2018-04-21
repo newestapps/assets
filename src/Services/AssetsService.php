@@ -11,7 +11,7 @@ use Newestapps\Assets\Interfaces\AssetPositioning;
 class AssetsService
 {
 
-    private $components = [
+    public $components = [
         'global' => [
             'js' => [],
             'css' => [],
@@ -64,32 +64,57 @@ class AssetsService
             $this->components[$this->fillingComponent][$group][$pageLocation] = $_ref;
         } else {
             foreach ($_ref as $ref) {
-                $this->components[$this->fillingComponent][$group][$pageLocation] = $ref;
+                $this->components[$this->fillingComponent][$group][$pageLocation][] = $ref;
             }
         }
     }
 
-    public function uses(array $components = [])
+    public function uses($components)
     {
-        $this->uses = $components;
+        if (!is_array($components)) {
+            $this->uses = [$components];
+        } else {
+            $this->uses = $components;
+        }
+
+        dd($this);
     }
 
+
+    /**
+     * @param string $pageLocation
+     * @return mixed
+     */
     public function renderCss($pageLocation = AssetPositioning::_DEFAULT)
     {
+        $v = '';
+        if (env('APP_ENV', 'local') == 'local') {
+            $v = "?v=".time();
+        }
+
         foreach ($this->uses as $u) {
             $css_s = $this->components[$u]['css'][$pageLocation];
             foreach ($css_s as $l) {
-                echo ' <link rel="stylesheet" href="'.$l.'" />';
+                echo ' <link rel="stylesheet" href="'.$l.$v.'" />';
             }
         }
     }
 
+    /**
+     * @param string $pageLocation
+     * @return mixed
+     */
     public function renderJs($pageLocation = AssetPositioning::_DEFAULT)
     {
+        $v = '';
+        if (env('APP_ENV', 'local') == 'local') {
+            $v = "?v=".time();
+        }
+
         foreach ($this->uses as $u) {
             $js_s = $this->components[$u]['js'][$pageLocation];
             foreach ($js_s as $l) {
-                echo '<script src="'.$l.'"></script>';
+                echo '<script src="'.$l.$v.'"></script>';
             }
         }
     }
